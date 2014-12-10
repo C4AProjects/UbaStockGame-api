@@ -13,9 +13,9 @@ $app = \Slim\Slim::getInstance();
 
 use Slim\Slim;
 //localhost
-//define('MONGO_HOST', 'localhost');
+define('MONGO_HOST', 'localhost');
 //qa server (mongolab)
-define('MONGO_HOST', 'mongodb://selom:admin123@ds053080.mongolab.com:53080/ubadb');
+// define('MONGO_HOST', 'mongodb://selom:admin123@ds053080.mongolab.com:53080/ubadb');
 define('MONGO_DB', 'ubadb');
 
 $app = new \Slim\Slim();
@@ -55,7 +55,7 @@ function _list($collection){
   
   $data = mongoList(
     MONGO_HOST, 
-    MONGO_DB, 
+    "ubadb", 
     $collection,
     $select
   );

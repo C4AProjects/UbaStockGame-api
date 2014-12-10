@@ -49,13 +49,17 @@ function mongoList($server, $db, $collection, $select = null) {
     
     // get results
     
-    $cursor = ($criteria) ? $collection->find($criteria): $collection->find() ;
+    if($criteria) {
+      $cursor = $collection->find($criteria);
+    } else {
+      $cursor = $collection->find();
+    }
     
     // sort the results if specified
     
-    if (isset($select['sort']) && $select['sort'] && count($select['sort'])) {
+    if(isset($select['sort']) && $select['sort'] && count($select['sort'])) {
       $sort = array();
-      //print_r($select);
+      print_r($select);
       foreach($select['sort'] as $key => $value) {
         $sort[$key] = (int) $value;
       }
@@ -64,7 +68,7 @@ function mongoList($server, $db, $collection, $select = null) {
 
     // set a limit
     
-    if (isset($select['limit']) && $select['limit']) {
+    if(isset($select['limit']) && $select['limit']) {
       if(MONGO_LIST_MAX_PAGE_SIZE && $select['limit'] > MONGO_LIST_MAX_PAGE_SIZE) {
         $limit = MONGO_LIST_MAX_PAGE_SIZE;
       } else {
@@ -74,8 +78,9 @@ function mongoList($server, $db, $collection, $select = null) {
       $limit = MONGO_LIST_DEFAULT_PAGE_SIZE;
     }
     
-    if ($limit) $cursor->limit($limit);
-    
+    if($limit) {
+      $cursor->limit($limit);
+    }
     
     // choose a page if specified
     
@@ -91,27 +96,10 @@ function mongoList($server, $db, $collection, $select = null) {
       'pages' => ceil($cursor->count() / $limit),
       'results' => array(),
     );
-
-    if(empty($output['results'])) {
-
-      unset($output);
-      
-       $output = array(
-       'status'  => "404",
-       'error' => "collection not found"
-      );
-
-       return $output;
-    }
     
     foreach ($cursor as $result) { 
       // 'flattening' _id object in line with CRUD functions
-      
-      if(is_object($result['_id'])) {
-         
-          $result['_id'] = $result['_id']->{'$id'};
-
-       } 
+      $result['_id'] = $result['_id']->{'$id'};
       $output['results'][] = $result;
     }
 
@@ -120,18 +108,8 @@ function mongoList($server, $db, $collection, $select = null) {
     return $output;
     
   } catch (MongoConnectionException $e) {
-
-    $output = array(
-      'status'  => "501",
-       'error' => "Error connecting to Database"
-    );
-
-    return $output;
-   
+    die('Error connecting to MongoDB server');
   } catch (MongoException $e) {
-
-
-
     die('Error: ' . $e->getMessage());
   }
 

@@ -93,7 +93,8 @@ $app->post('/users/signup', function() use ($app) {
             "state"=>$r->state,
             "api_key"=>$api_key,
             "createdAt"=>$date,
-            "status"=>1
+            "status"=>1,
+            "picture"=>$r->picture
             );
         
         $data = mongoCreate(
@@ -134,6 +135,8 @@ $app->get('/logout', function() {
     $response["message"] = "Logged out successfully";
     echoResponse(200, $response);
 });
+
+// $states => array('AB' => 'Abia', 'AJ' => 'Abuja','AN' => 'Anambra','AD' => 'Adamawa','AK' => 'Akwa Ibom',                'BA' => 'Bauchi',                'BY' => 'Bayelsa',                'BE' => 'Benue',                'BO' => 'Borno',                'CR' => 'Cross River',                'DE' => 'Delta',                'ED' => 'Edo',                'EK' => 'Ekiti',                'EB' => 'Ebonyi',                'EN' => 'Enugu',                'GO' => 'Gombe',                'IM' => 'Imo',                'KN' => 'Kano',                'LA' => 'Lagos',                'NS' => 'Nassarawa',                'JI' => 'Jigawa',                'KB' => 'Kebbi',                'KD' => 'Kaduna',                'KG' => 'Kogi',                'KT' => 'Katsina',                'KW' => 'Kwara',                'NR' => 'Niger',                'OG' => 'Ogun',                'ON' => 'Ondo',                'OS' => 'Osun',                'OY' => 'Oyo',                'PL' => 'Plateau',                'RV' => 'Rivers',                'SO' => 'Sokoto',                'TA' => 'Taraba',                'YB' => 'Yobe',                'ZM' => 'Zamfara'                       );
 
 function generateApiKey() {
         return md5(uniqid(rand(), true));
