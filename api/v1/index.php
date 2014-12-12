@@ -21,6 +21,8 @@ define('MONGO_DB', 'ubadb');
 $app = new \Slim\Slim();
 $db = 'ubadb';
 
+//Set default Time zone
+date_default_timezone_set('Africa/Lagos');
 /**
  * Routing
  */
