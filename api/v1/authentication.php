@@ -83,8 +83,12 @@ $app->post('/users/signup', function() use ($app) {
     if($count<=0){
         $password = passwordHash::hash($password);
         $api_key = generateApiKey();
-            $date = date('Y-m-d H:i:s');
-            
+        $tz_string = "Africa/Lagos"; // Use one from list of TZ names http://us2.php.net/manual/en/timezones.php
+        $tz_object = new DateTimeZone($tz_string);
+        
+        $date= new DateTime();
+         $date->setTimezone($tz_object);
+           
         $signUpArray=array(
             "email"=>$r->email,
             /*"fname"=>$r->fname,
@@ -92,7 +96,7 @@ $app->post('/users/signup', function() use ($app) {
             "name"=>$r->name,
             "password"=>$password,
             "api_key"=>$api_key,
-            "createdAt"=>$date,
+            "createdAt"=>$date->format('Y/m/d H:i:s'),
             "status"=>1
             );
         
