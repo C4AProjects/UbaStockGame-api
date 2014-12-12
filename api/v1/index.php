@@ -55,13 +55,13 @@ function _list($collection){
   
   $data = mongoList(
     MONGO_HOST, 
-    "ubadb", 
+    MONGO_DB, 
     $collection,
     $select
   );
 
  
-  show($data);
+  echoResponse(200,$data);
 
 }
 

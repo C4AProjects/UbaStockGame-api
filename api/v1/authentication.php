@@ -87,14 +87,13 @@ $app->post('/users/signup', function() use ($app) {
             
         $signUpArray=array(
             "email"=>$r->email,
-            "fname"=>$r->fname,
-            "lname"=>$r->lname,
+            /*"fname"=>$r->fname,
+            "lname"=>$r->lname,*/
+            "name"=>$r->name,
             "password"=>$password,
-            "state"=>$r->state,
             "api_key"=>$api_key,
             "createdAt"=>$date,
-            "status"=>1,
-            "picture"=>$r->picture
+            "status"=>1
             );
         
         $data = mongoCreate(
